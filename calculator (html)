@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+</head>
+<body>
+
+<h2>Calculator</h2>
+
+<input type="text" id="name" placeholder="Enter your name"><br><br>
+<input type="number" id="num1" placeholder="First number"><br><br>
+<input type="number" id="num2" placeholder="Second number"><br><br>
+
+<select id="action">
+    <option value="add">Add</option>
+    <option value="subtract">Subtract</option>
+    <option value="multiply">Multiply</option>
+    <option value="divide">Divide</option>
+</select><br><br>
+
+<button onclick="startCalculation()">Calculate</button>
+
+<p id="output"></p>
+<p id="history"></p>
+
+<script>
+
+// DATA STRUCTURE (ARRAY)
+// Stores previous calculations
+let historyList = [];
+
+// MAIN FUNCTION (NO PARAMETERS - CONTROLS FLOW)
+function startCalculation() {
+
+    let name = document.getElementById("name").value;
+    let num1 = parseFloat(document.getElementById("num1").value);
+    let num2 = parseFloat(document.getElementById("num2").value);
+    let action = document.getElementById("action").value;
+
+    if (isNaN(num1) || isNaN(num2)) {
+        document.getElementById("output").innerText = "Error: Invalid numbers.";
+        return;
+    }
+
+    // CALL SUBPROGRAM WITH PARAMETERS
+    let result = performCalculation(num1, num2, action);
+
+    if (result === "error") return;
+
+    let message = "Welcome " + name + "! Result: " + result;
+
+    document.getElementById("output").innerText = message;
+
+    // STORE RESULT IN ARRAY
+    historyList.push(message);
+
+    displayHistory();
+}
+
+// SUBPROGRAM WITH PARAMETERS ✅
+function performCalculation(num1, num2, action) {
+
+    if (action === "add") return num1 + num2;
+
+    else if (action === "subtract") return num1 - num2;
+
+    else if (action === "multiply") return num1 * num2;
+
+    else if (action === "divide") {
+        if (num2 === 0) {
+            document.getElementById("output").innerText = "Error: Cannot divide by zero.";
+            return "error";
+        }
+        return num1 / num2;
+    }
+
+    return "error";
+}
+
+// ANOTHER SUBPROGRAM (OPTIONAL BONUS)
+function displayHistory() {
+
+    let historyText = "History:<br>";
+
+    for (let i = 0; i < historyList.length; i++) {
+        historyText += historyList[i] + "<br>";
+    }
+
+    document.getElementById("history").innerHTML = historyText;
+}
+
+</script>
+
+</body>
+</html>
